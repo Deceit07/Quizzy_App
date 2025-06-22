@@ -1,23 +1,26 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./components/Home";
 import QuizScreen from "./components/QuizScreen";
 import ResultScreen from "./components/ResultScreen";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import { questions } from "./data";
+import { useState } from "react";
 
 function QuizWrapper() {
-  const navigate = useNavigate();
   const [score, setScore] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const navigate = useNavigate();
 
   const handleAnswer = (isCorrect) => {
-    if (isCorrect) setScore((prev) => prev + 1);
+    if (isCorrect) {
+      setScore(score + 1);
+    }
 
     if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
+      setCurrentQuestion(currentQuestion + 1);
     } else {
-      navigate("/result", { state: { score, total: questions.length } });
+      navigate("/result", {
+        state: { score, total: questions.length },
+      });
     }
   };
 
